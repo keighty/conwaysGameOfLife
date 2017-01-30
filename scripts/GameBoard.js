@@ -2,7 +2,7 @@ import Unit from './GameUnit'
 
 export class GameBoard {
 
-  constructor(height, width) {
+  constructor(width, height) {
     this._height = height
     this._width = width
     this._board = this.setupGameBoard()
@@ -24,5 +24,19 @@ export class GameBoard {
 
   getUnit(x, y) {
     return this._board[x][y]
+  }
+
+  getNeighbours(unit) {
+    const [x, y] = unit.location
+    return {
+      W: this.getUnit(x - 1 , y),
+      E: this.getUnit(x + 1 , y),
+      N: this.getUnit(x     , y - 1),
+      S: this.getUnit(x     , y + 1),
+      NE: this.getUnit(x + 1, y - 1),
+      NW: this.getUnit(x - 1, y - 1),
+      SW: this.getUnit(x - 1, y + 1),
+      SE: this.getUnit(x + 1, y + 1),
+    }
   }
 }

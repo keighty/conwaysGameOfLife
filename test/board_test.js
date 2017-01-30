@@ -8,10 +8,15 @@ describe('GameBoard', () => {
   })
 
   describe('structure', () => {
-    let gb
+    const size = 5
+    const testX = 1
+    const testY = 2
+    let gb, unit, neighbours
 
     beforeEach(() => {
-      gb = new GameBoard(5, 5)
+      gb = new GameBoard(size, size)
+      unit = gb.getUnit(testX, testY)
+      neighbours = gb.getNeighbours(unit)
     })
 
     it('should load and retrieve a GameBoard of specific dimensions', () => {
@@ -19,16 +24,45 @@ describe('GameBoard', () => {
     })
 
     it('should allow retrieval of a single unit of the GameBoard', () => {
-      const unit = gb.getUnit(1, 1)
       expect(unit instanceof Unit).to.be.true
       expect(unit.location).to.be [1, 1]
       expect(unit.empty).to.be.true
     })
 
-    xit('should retrieve unit neighbours', () => {
-      const unit = gb.getUnit(1, 1)
-      const neighbours = unit.getNeighbours()
-      expect(neighbours.length).to.eql(8)
+    it('should retrieve a set of neighbours', () => {
+      expect(Object.keys(neighbours).length).to.eql(8)
+    })
+
+    it('should return the East neighbour', () => {
+      expect(neighbours.E.location).to.deep.eq([2, 2])
+    })
+
+    it('should return the West neighbour', () => {
+      expect(neighbours.W.location).to.deep.eq([0, 2])
+    })
+
+    it('should return the North neighbour', () => {
+      expect(neighbours.N.location).to.deep.eq([1, 1])
+    })
+
+    it('should return the South neighbour', () => {
+      expect(neighbours.S.location).to.deep.eq([1, 3])
+    })
+
+    it('should return the NEast neighbour', () => {
+      expect(neighbours.NE.location).to.deep.eq([2, 1])
+    })
+
+    it('should return the NWest neighbour', () => {
+      expect(neighbours.NW.location).to.deep.eql([0,1])
+    })
+
+    it('should return the SWest neighbour', () => {
+      expect(neighbours.SW.location).to.deep.eql([0, 3])
+    })
+
+    it('should return the SEast neighbour', () => {
+      expect(neighbours.SE.location).to.deep.eql([2, 3])
     })
   })
 
