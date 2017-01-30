@@ -39,41 +39,76 @@ describe('GameBoard', () => {
       expect(oob).to.eql(undefined)
     })
 
-    it('should retrieve a set of neighbours', () => {
-      expect(Object.keys(neighbours).length).to.eql(8)
+    describe('neighbour validation', () => {
+      it('should retrieve a set of neighbours', () => {
+        expect(Object.keys(neighbours).length).to.eql(8)
+      })
+
+      it('should return the East neighbour', () => {
+        expect(neighbours.E.location).to.deep.eq([2, 2])
+      })
+
+      it('should return the West neighbour', () => {
+        expect(neighbours.W.location).to.deep.eq([0, 2])
+      })
+
+      it('should return the North neighbour', () => {
+        expect(neighbours.N.location).to.deep.eq([1, 1])
+      })
+
+      it('should return the South neighbour', () => {
+        expect(neighbours.S.location).to.deep.eq([1, 3])
+      })
+
+      it('should return the NEast neighbour', () => {
+        expect(neighbours.NE.location).to.deep.eq([2, 1])
+      })
+
+      it('should return the NWest neighbour', () => {
+        expect(neighbours.NW.location).to.deep.eql([0,1])
+      })
+
+      it('should return the SWest neighbour', () => {
+        expect(neighbours.SW.location).to.deep.eql([0, 3])
+      })
+
+      it('should return the SEast neighbour', () => {
+        expect(neighbours.SE.location).to.deep.eql([2, 3])
+      })
     })
 
-    it('should return the East neighbour', () => {
-      expect(neighbours.E.location).to.deep.eq([2, 2])
+    describe('determine generation behaviour', () => {
+      it('should live if < 2 neighbours', () => {
+        neighbours.N.empty = false
+
+        expect(gb.nextStatus(unit)).to.eql('dead')
+      })
+
+      it('should live if = 2 neighbours', () => {
+        neighbours.N.empty = false
+        neighbours.E.empty = false
+
+        expect(gb.nextStatus(unit)).to.eql('live')
+      })
+
+      it('should live if = 3 neighbours', () => {
+        neighbours.N.empty = false
+        neighbours.E.empty = false
+        neighbours.S.empty = false
+
+        expect(gb.nextStatus(unit)).to.eql('live')
+      })
+
+      it('should die if > 3 neighbours', () => {
+        neighbours.N.empty = false
+        neighbours.E.empty = false
+        neighbours.S.empty = false
+        neighbours.W.empty = false
+
+        expect(gb.nextStatus(unit)).to.eql('dead')
+      })
     })
 
-    it('should return the West neighbour', () => {
-      expect(neighbours.W.location).to.deep.eq([0, 2])
-    })
-
-    it('should return the North neighbour', () => {
-      expect(neighbours.N.location).to.deep.eq([1, 1])
-    })
-
-    it('should return the South neighbour', () => {
-      expect(neighbours.S.location).to.deep.eq([1, 3])
-    })
-
-    it('should return the NEast neighbour', () => {
-      expect(neighbours.NE.location).to.deep.eq([2, 1])
-    })
-
-    it('should return the NWest neighbour', () => {
-      expect(neighbours.NW.location).to.deep.eql([0,1])
-    })
-
-    it('should return the SWest neighbour', () => {
-      expect(neighbours.SW.location).to.deep.eql([0, 3])
-    })
-
-    it('should return the SEast neighbour', () => {
-      expect(neighbours.SE.location).to.deep.eql([2, 3])
-    })
   })
 
 })
