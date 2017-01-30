@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import {GameBoard} from '../scripts/GameBoard'
+import Unit from '../scripts/GameUnit'
 
 describe('GameBoard', () => {
   it('should pass this canary test', () => {
@@ -19,7 +20,7 @@ describe('GameBoard', () => {
 
     it('should allow retrieval of a single unit of the GameBoard', () => {
       const unit = gb.getUnit(1, 1)
-      console.log(unit)
+      expect(unit instanceof Unit).to.be.true
       expect(unit.location).to.be [1, 1]
       expect(unit.empty).to.be.true
     })
