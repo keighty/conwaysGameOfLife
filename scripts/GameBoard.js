@@ -41,19 +41,20 @@ export class GameBoard {
     }
   }
 
-  nextStatus(unit) {
+  nextGeneration(unit) {
     const neighbours = this.getNeighbours(unit)
     const noisyNeighbours = Object.keys(neighbours)
                                   .map(k => neighbours[k])
-                                  .filter(v => !v.empty)
+                                  .filter(v => v.alive)
 
     switch (noisyNeighbours.length) {
       case 2:
       case 3:
-        return 'live'
+        unit.alive = true
+        break
       case 1:
       case 4:
-        return 'dead'
+        unit.alive = false
     }
   }
 }

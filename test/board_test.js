@@ -26,7 +26,7 @@ describe('GameBoard', () => {
     it('should allow retrieval of a single unit of the GameBoard', () => {
       expect(unit instanceof Unit).to.be.true
       expect(unit.location).to.be [1, 1]
-      expect(unit.empty).to.be.true
+      expect(unit.alive).to.be.false
     })
 
     it('should return undefined for neighbours out of lower bounds', () => {
@@ -78,37 +78,53 @@ describe('GameBoard', () => {
     })
 
     describe('determine generation behaviour', () => {
-      it('should live if < 2 neighbours', () => {
-        neighbours.N.empty = false
+      it('if alive and < 2 live neighbours => dead', () => {
+        unit.alive = true
+        neighbours.N.alive = true
+        gb.nextGeneration(unit)
 
-        expect(gb.nextStatus(unit)).to.eql('dead')
+        expect(unit.alive).to.be.false
       })
 
-      it('should live if = 2 neighbours', () => {
-        neighbours.N.empty = false
-        neighbours.E.empty = false
+      it('if alive and 2 live neighbours => live', () => {
+        unit.alive = true
+        neighbours.N.alive = true
+        neighbours.S.alive = true
+        gb.nextGeneration(unit)
 
-        expect(gb.nextStatus(unit)).to.eql('live')
+        expect(unit.alive).to.be.true
       })
 
-      it('should live if = 3 neighbours', () => {
-        neighbours.N.empty = false
-        neighbours.E.empty = false
-        neighbours.S.empty = false
+      it('if alive and 3 live neighbours => live', () => {
+        unit.alive = true
+        neighbours.N.alive = true
+        neighbours.S.alive = true
+        neighbours.E.alive = true
+        gb.nextGeneration(unit)
 
-        expect(gb.nextStatus(unit)).to.eql('live')
+        expect(unit.alive).to.be.true
       })
 
-      it('should die if > 3 neighbours', () => {
-        neighbours.N.empty = false
-        neighbours.E.empty = false
-        neighbours.S.empty = false
-        neighbours.W.empty = false
+      it('if dead and = 3 neighbours, status => live', () => {
+        unit.alive = false
+        neighbours.N.alive = true
+        neighbours.S.alive = true
+        neighbours.E.alive = true
+        gb.nextGeneration(unit)
 
-        expect(gb.nextStatus(unit)).to.eql('dead')
+        expect(unit.alive).to.be.true
+      })
+
+      it('if alive and >3 live neighbours, status => dead', () => {
+        unit.alive = true
+        neighbours.N.alive = true
+        neighbours.S.alive = true
+        neighbours.E.alive = true
+        neighbours.W.alive = true
+        gb.nextGeneration(unit)
+
+        expect(unit.alive).to.be.false
       })
     })
-
   })
-
 })
