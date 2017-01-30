@@ -29,6 +29,16 @@ describe('GameBoard', () => {
       expect(unit.empty).to.be.true
     })
 
+    it('should return undefined for neighbours out of lower bounds', () => {
+      const oob = gb.getUnit(testX - 5, -1)
+      expect(oob).to.eql(undefined)
+    })
+
+    it('should return undefined for neighbour out of high bounds', () => {
+      const oob = gb.getUnit(testX + 20, -1)
+      expect(oob).to.eql(undefined)
+    })
+
     it('should retrieve a set of neighbours', () => {
       expect(Object.keys(neighbours).length).to.eql(8)
     })

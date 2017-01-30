@@ -23,16 +23,17 @@ export class GameBoard {
   }
 
   getUnit(x, y) {
-    return this._board[x][y]
+    if(x >= 0 && x < this._width)
+      return this._board[x][y]
   }
 
   getNeighbours(unit) {
     const [x, y] = unit.location
     return {
-      W: this.getUnit(x - 1 , y),
-      E: this.getUnit(x + 1 , y),
-      N: this.getUnit(x     , y - 1),
-      S: this.getUnit(x     , y + 1),
+       W: this.getUnit(x - 1, y),
+       E: this.getUnit(x + 1, y),
+       N: this.getUnit(x    , y - 1),
+       S: this.getUnit(x    , y + 1),
       NE: this.getUnit(x + 1, y - 1),
       NW: this.getUnit(x - 1, y - 1),
       SW: this.getUnit(x - 1, y + 1),
